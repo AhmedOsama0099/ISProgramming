@@ -52,7 +52,14 @@ public class AddProject extends JFrame {
                         @Override
                         public void run() {
 
-                            TaskAndSubTasks taskAndSubTasks = new TaskAndSubTasks();
+                            TaskAndSubTasks taskAndSubTasks = null;
+                            try {
+                                taskAndSubTasks = new TaskAndSubTasks();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                             taskAndSubTasks.setVisible(true);
                         }
                     });
