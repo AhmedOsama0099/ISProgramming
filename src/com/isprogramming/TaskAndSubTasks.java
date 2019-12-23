@@ -25,6 +25,8 @@ public class TaskAndSubTasks extends JFrame {
     private JButton addTeamMembersButton;
     private JButton getMileStonesButton;
     private JButton dependancyButton;
+    private JButton actualButton;
+    private JButton showChartButton;
     DefaultTableModel tableModel = new DefaultTableModel();
     int p_id = AddProject.p_id;
     int task_id = 0;
@@ -213,6 +215,15 @@ public class TaskAndSubTasks extends JFrame {
                         taskName.setEnabled(true);
                         taskDays.setEnabled(true);
                     }
+                    else{
+                        addSupTaskButton.setEnabled(false);
+                        removeSupTaskButton.setEnabled(false);
+                        addTaskButton.setEnabled(true);
+                        tStartDate.setEnabled(true);
+                        tDueDate.setEnabled(true);
+                        taskName.setEnabled(true);
+                        taskDays.setEnabled(true);
+                    }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "some error occur !");
                 }
@@ -308,6 +319,68 @@ public class TaskAndSubTasks extends JFrame {
                             e.printStackTrace();
                         }
                         addDependency.setVisible(true);
+                    }
+                });
+            }
+        });
+        actualButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ActualForm actualForm = null;
+                        try {
+                            actualForm = new ActualForm();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        actualForm.setVisible(true);
+                    }
+                });
+            }
+        });
+        showChartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Chart chart = null;
+                        try {
+                            chart = new Chart();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        chart.setVisible(true);
                     }
                 });
             }

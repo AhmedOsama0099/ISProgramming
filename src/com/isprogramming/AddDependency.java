@@ -72,7 +72,7 @@ public class AddDependency extends JFrame {
                         JOptionPane.showMessageDialog(null, "task is empty !");
                         return;
                     }
-                    stmt.executeQuery("select t_name from task where t_name = "+"'"+taskName.getText().trim()+"'"
+                    rs=stmt.executeQuery("select t_id from task where t_name = "+"'"+taskName.getText().trim()+"'"
                     +"and p_id="+p_id);
                     if(!rs.next()){
                         JOptionPane.showMessageDialog(null, "task not found !");
@@ -81,6 +81,9 @@ public class AddDependency extends JFrame {
                     taskID=rs.getInt(1);
                     confirmButton.setEnabled(false);
                     taskName.setEnabled(false);
+                    confirmButton1.setEnabled(true);
+                    addDependantButton.setEnabled(true);
+                    removeDependantButton.setEnabled(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -91,8 +94,9 @@ public class AddDependency extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     ArrayList<Integer>dIds=new ArrayList<>();
+
                     for(int i=0;i<dependantTable.getRowCount();i++){
-                        stmt.executeQuery("select t_name from task where t_name = "+"'"+tableModel2.getValueAt(i,0).toString().trim()+"'"
+                        rs=stmt.executeQuery("select t_id from task where t_name = "+"'"+tableModel2.getValueAt(i,0).toString().trim()+"'"
                         +"and p_id="+p_id);
                         if(!rs.next()){
                             JOptionPane.showMessageDialog(null, "task not found !");
@@ -100,14 +104,15 @@ public class AddDependency extends JFrame {
                         }
                         int id=rs.getInt(1);
                         if(taskID==id){
-                            JOptionPane.showMessageDialog(null, "task not found !");
+                            JOptionPane.showMessageDialog(null, "u cannot make dep for same task !");
                             return;
                         }
                         dIds.add(id);
                     }
 
-                    ResultSet rsss = stmt.executeQuery("select t_name from task where t_name="+"'"+taskName.getText().trim()+"'");
-                    int dId=rsss.getInt(1);
+                    /*ResultSet rsss = stmt.executeQuery("select t_name from task where t_name="+"'"+taskName.getText().trim()+"'");
+                    int dId=rsss.getInt(1);*/
+
                     for(int i=0;i<dIds.size();i++){
                         String queryy = " insert into dependent (t_id,d_id)"
                                 + " values (?,?)";
@@ -116,7 +121,15 @@ public class AddDependency extends JFrame {
                         preparedStmtt.setInt(2,dIds.get(i));
                         preparedStmtt.executeUpdate();
                     }
-
+                    confirmButton.setEnabled(true);
+                    taskName.setEnabled(true);
+                    confirmButton1.setEnabled(false);
+                    addDependantButton.setEnabled(false);
+                    removeDependantButton.setEnabled(false);
+                    int rowCount = tableModel2.getRowCount();
+                    for (int i = rowCount - 1; i >= 0; i--) {
+                        tableModel2.removeRow(i);
+                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
